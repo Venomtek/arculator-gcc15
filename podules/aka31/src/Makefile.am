@@ -10,15 +10,22 @@ CLEANFILES =
 
 if OS_WINDOWS
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../aka31$(SO_EXT)
-../aka31$(SO_EXT): libaka31.la
-	cp .libs/libaka31-0$(SO_EXT) ../aka31$(SO_EXT)
+noinst_SCRIPTS += ../aka31.dll
+../aka31.dll: libaka31.la
+	cp .libs/libaka31-0.dll ../aka31.dll
 libaka31_la_LDFLAGS = -no-undefined
-else
+endif
+if OS_LINUX
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../aka31$(SO_EXT)
-../aka31$(SO_EXT): libaka31.la
-	cp .libs/libaka31$(SO_EXT) ../aka31$(SO_EXT)
+noinst_SCRIPTS += ../aka31.so
+../aka31.so: libaka31.la
+	cp .libs/libaka31.so ../aka31.so
+endif
+if OS_MACOSX
+CLEANFILES += $(noinst_SCRIPTS)
+noinst_SCRIPTS += ../aka31.dylib
+../aka31.dylib: libaka31.la
+	cp .libs/libaka31.dylib ../aka31.dylib
 endif
 
 amrefresh:
@@ -35,7 +42,7 @@ if OS_MACOSX
 libaka31_la_SOURCES += ../../common/cdrom/cdrom-osx-ioctl.c
 endif
 
-libaka31_la_CFLAGS = $(SDL_CFLAGS) -I../../../src -I../../common/cdrom -I../../common/sound -I../../common/scsi
+libaka31_la_CFLAGS = -I../../../src -I../../common/cdrom -I../../common/sound -I../../common/scsi
 libaka31_la_LIBADD = @LIBS@
 
 endif

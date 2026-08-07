@@ -11,8 +11,6 @@ typedef struct
 	void *p;
 } packet_t;
 
-struct net_t;
-
 typedef struct net_t
 {
 	void (*close)(struct net_t *net);

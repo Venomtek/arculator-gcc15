@@ -10,15 +10,22 @@ CLEANFILES =
 
 if OS_WINDOWS
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../aka10$(SO_EXT)
-../aka10$(SO_EXT): libaka10.la
-	cp .libs/libaka10-0$(SO_EXT) ../aka10$(SO_EXT)
+noinst_SCRIPTS += ../aka10.dll
+../aka10.dll: libaka10.la
+	cp .libs/libaka10-0.dll ../aka10.dll
 libaka10_la_LDFLAGS = -no-undefined
-else
+endif
+if OS_LINUX
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../aka10$(SO_EXT)
-../aka10$(SO_EXT): libaka10.la
-	cp .libs/libaka10$(SO_EXT) ../aka10$(SO_EXT)
+noinst_SCRIPTS += ../aka10.so
+../aka10.so: libaka10.la
+	cp .libs/libaka10.so ../aka10.so
+endif
+if OS_MACOSX
+CLEANFILES += $(noinst_SCRIPTS)
+noinst_SCRIPTS += ../aka10.dylib
+../aka10.dylib: libaka10.la
+	cp .libs/libaka10.dylib ../aka10.dylib
 endif
 
 amrefresh:	
@@ -35,7 +42,7 @@ if OS_MACOSX
 libaka10_la_SOURCES += ../../common/midi/midi_null.c
 endif
 
-libaka10_la_CFLAGS = -I../../../src -I../../common/adc -I../../common/joystick -I../../common/midi -I../../common/misc -I../../common/uart $(SDL_CFLAGS)
+libaka10_la_CFLAGS = -I../../../src -I../../common/adc -I../../common/joystick -I../../common/midi -I../../common/misc -I../../common/uart $(shell sdl2-config --cflags)
 libaka10_la_LIBADD = @LIBS@
 
 if OS_WINDOWS

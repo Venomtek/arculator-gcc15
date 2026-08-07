@@ -41,28 +41,10 @@ AC_MSG_CHECKING([whether to build podules])
 AC_ARG_ENABLE(podules,
           AS_HELP_STRING([--disable-podules],[don't build podules]))
 if test "$enable_podules" != "no"; then
-   module=no eval SO_EXT=$shrext_cmds
-   if test "$SO_EXT" = ""; then
-      SO_EXT=.so
-   fi
-   AC_SUBST(SO_EXT, "$SO_EXT")
-   CFLAGS_BUILD="-DSO_EXT=\\\"$SO_EXT\\\""
-
-   AC_MSG_RESULT([yes ($SO_EXT)])
-else
-   AC_MSG_RESULT([no])
-fi
-
-AC_MSG_CHECKING([whether to use wxwidgets for main window])
-AC_ARG_ENABLE(wx_main_window,
-          AS_HELP_STRING([--enable-wx-main-window],[build for wx main window]))
-if test "$enable_wx_main_window" = "yes"; then
    AC_MSG_RESULT([yes])
-   CFLAGS_UI_WX=" -DUI_WX"
 else
    AC_MSG_RESULT([no])
 fi
-AM_CONDITIONAL(RELEASE_BUILD, [test "$enable_release_build" = "yes"])
 
 AC_MSG_CHECKING([for libz])
 AC_CHECK_LIB(z, inflateEnd, [], \
@@ -89,16 +71,6 @@ if test "$wxWin" != 1; then
       wxWidgets version is $reqwx or above.
       ])
 fi
-
-case "$host" in
-    *-*-cygwin* | *-*-mingw32*)
-       ;;
-    *)
-       AC_PATH_XTRA
-       AS_IF([test "X$no_x" = "Xyes"],
-         [AC_MSG_ERROR([Could not find X11])])
-       ;;
-esac
 
 AC_CHECK_LIB([pthread], [pthread_create])
 
@@ -129,17 +101,16 @@ case "$host" in
        ;;
 esac
 
-CFLAGS="$CFLAGS_BUILD $CFLAGS_RELEASE $CFLAGS_UI_WX $CFLAGS"
-CXXFLAGS="$CFLAGS_BUILD $CFLAGS_RELEASE $CFLAGS_UI_WX $CXXFLAGS"
-LIBS="$LIBS $WX_LIBS $SDL_LIBS $X_LIBS"
+CFLAGS="$CFLAGS_BUILD $CFLAGS_RELEASE $CFLAGS"
+CXXFLAGS="$CFLAGS_BUILD $CFLAGS_RELEASE $CXXFLAGS"
+LIBS="$LIBS $WX_LIBS $SDL_LIBS"
 
 AM_CONDITIONAL(OS_LINUX, [test "$build_linux" = "yes"])
 AM_CONDITIONAL(OS_WINDOWS, [test "$build_win" = "yes"])
 AM_CONDITIONAL(OS_OTHER, [test "$build_other" = "yes"])
 AM_CONDITIONAL(OS_MACOSX, [test "$build_macosx" = "yes"])
 
-AM_CONDITIONAL(BUILD_PODULES, [test "$enable_podules" = "yes"])
-AM_CONDITIONAL(UI_WX, [test "$enable_wx_main_window" = "yes"])
+AM_CONDITIONAL(BUILD_PODULES, [test "$enable_podules" != "no"])
 
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

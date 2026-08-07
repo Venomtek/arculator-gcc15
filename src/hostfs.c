@@ -34,7 +34,6 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 #include "arc.h"
 #include "config.h"
@@ -52,10 +51,12 @@
 # define mkdir(name, mode) _mkdir(name)
 #endif
 
-/* typedef int bool; */
+#if !(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L) && !defined(__cplusplus)
+typedef int bool;
 
 #define true  ((bool) 1)
 #define false ((bool) 0)
+#endif
 
 /** Registration states of HostFS module with backend code */
 typedef enum {

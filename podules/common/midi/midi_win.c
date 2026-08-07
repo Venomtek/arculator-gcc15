@@ -20,7 +20,7 @@ typedef struct midi_t
 	void *p;
 } midi_t;
 
-void midi_close();
+void midi_close(void *p);
 
 void midi_get_dev_name(int num, char *s);
 void midi_in_get_dev_name(int num, char *s);

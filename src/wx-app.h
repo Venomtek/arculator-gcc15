@@ -86,14 +86,21 @@ private:
 class UpdateMenuEvent: public wxCommandEvent
 {
 public:
-	UpdateMenuEvent() : wxCommandEvent(WX_UPDATE_MENU_EVENT)
+	UpdateMenuEvent(wxMenu *menu) : wxCommandEvent(WX_UPDATE_MENU_EVENT)
 	{
+		this->menu = menu;
 	}
 	UpdateMenuEvent(const UpdateMenuEvent &event) : wxCommandEvent(event)
 	{
+		this->menu = event.GetMenu();
 	}
 
 	wxEvent *Clone() const { return new UpdateMenuEvent(*this); }
+
+	wxMenu *GetMenu() const { return menu; }
+
+private:
+	wxMenu *menu;
 };
 
 class Frame;
@@ -121,7 +128,7 @@ public:
 
 	void Start();
 
-	void UpdateMenu();
+	wxMenu* GetMenu();
 
 private:
 	void OnMenuCommand(wxCommandEvent& event);
@@ -133,20 +140,13 @@ private:
 	void OnWinSendMessageEvent(WinSendMessageEvent &event);
 #endif
 
-#ifdef UI_WX
-	wxMenuBar *menu;
-#else
 	wxMenu* menu;
-#endif
 
 	void Quit(bool stop_emulator = 1);
 	void ChangeDisc(int drive);
+	void UpdateMenu(wxMenu *menu);
 
 	wxDECLARE_EVENT_TABLE();
 };
-
-void OnMenuCommandCommon(wxCommandEvent &event, wxWindow *parent);
-
-extern void *main_menu;
 
 #endif /* SRC_WX_APP_H_ */

@@ -26,6 +26,7 @@ void lark_sound_in_stop(struct lark_t *lark);
 
 void lark_sound_out_buffer(struct lark_t *lark, void *buffer, int samples);
 
-int wss_irq(ad1848_t *ad1848);
+struct ad1848_t;
+int wss_irq(struct ad1848_t *ad1848);
 
 #endif /* _DLL_H_ */

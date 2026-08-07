@@ -59,7 +59,6 @@ static void wd1770_spinup()
 
 static void wd1770_spindown(void *p)
 {
-	(void)p;
 	rpclog("WD1770_spindown\n");
 	wd1770.status &= ~0x80;
 /*        motoron = 0;

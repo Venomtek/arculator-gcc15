@@ -1,1 +1,1 @@
-extern void *sdl_main_window;
+extern SDL_Window *sdl_main_window;

@@ -8,7 +8,6 @@
 #include "config.h"
 #include "g16.h"
 #include "ide_a3in.h"
-#include "ide_hccs_a3k.h"
 #include "ide_idea.h"
 #include "ide_riscdev.h"
 #include "ide_zidefs.h"
@@ -43,8 +42,7 @@ static const podule_header_t *(*internal_podules[])(const podule_callbacks_t *ca
 
 	/*8-bit minipodules*/
 	ics_a3inv5_ide_probe,
-	zidefs_a3k_ide_probe,
-	hccs_a3k_ide_probe
+	zidefs_a3k_ide_probe
 };
 
 #define NR_INTERNAL_PODULES (sizeof(internal_podules) / sizeof(internal_podules[0]))

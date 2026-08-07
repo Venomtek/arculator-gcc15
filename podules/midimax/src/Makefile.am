@@ -10,15 +10,22 @@ CLEANFILES =
 
 if OS_WINDOWS
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../midimax$(SO_EXT)
-../midimax$(SO_EXT): libmidimax.la
-	cp .libs/libmidimax-0$(SO_EXT) ../midimax$(SO_EXT)
+noinst_SCRIPTS += ../midimax.dll
+../midimax.dll: libmidimax.la
+	cp .libs/libmidimax-0.dll ../midimax.dll
 libmidimax_la_LDFLAGS = -no-undefined
-else
+endif
+if OS_LINUX
 CLEANFILES += $(noinst_SCRIPTS)
-noinst_SCRIPTS += ../midimax$(SO_EXT)
-../midimax$(SO_EXT): libmidimax.la
-	cp .libs/libmidimax$(SO_EXT) ../midimax$(SO_EXT)
+noinst_SCRIPTS += ../midimax.so
+../midimax.so: libmidimax.la
+	cp .libs/libmidimax.so ../midimax.so
+endif
+if OS_MACOSX
+CLEANFILES += $(noinst_SCRIPTS)
+noinst_SCRIPTS += ../midimax.dylib
+../midimax.dylib: libmidimax.la
+	cp .libs/libmidimax.dylib ../midimax.dylib
 endif
 
 amrefresh:	
